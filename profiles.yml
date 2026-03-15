@@ -1,0 +1,13 @@
+BTC:
+  outputs:
+    dev:
+      account: LMILCJX-TDC28768
+      database: BTC
+      password: Tirumalatirupatibalaji@1
+      role: ACCOUNTADMIN
+      schema: BTC_schema
+      threads: 1
+      type: snowflake
+      user: vasu
+      warehouse: LG_WH
+  target: dev
