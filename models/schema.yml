@@ -7,3 +7,43 @@ models:
           tests:
             - unique
             - not_null
+
+    - name: whale_alert
+      latest_version: 2
+      config:
+        contract:
+          enforced: true
+      columns:
+        - name: OUTPUT_ADDRESS
+          data_type: string
+          data_tests:
+            - assert_valid_address_pattern
+        - name: TOTAL_SENT
+          data_type: float
+          tests:
+            - not_null
+        - name: TX_COUNT
+          data_type: decimal
+        - name: TOTAL_SENT_USD
+          data_type: float
+        # Declare the versions, and highlight the diffs
+  
+      versions:
+       - v: 1
+        # Matches what's above -- nothing more needed
+         description: deprecated
+         deprecation_date: 2026-04-01
+         config:
+          enabled: false
+       - v: 2
+        # Removed a column -- this is the breaking change!
+         columns:
+          # This means: use the 'columns' list from above, but exclude TOTAL_SENT_USD
+          - include: all
+            exclude: [TOTAL_SENT_USD]
+
+
+    - name: stg_btc_outputs_py
+      tests:
+        - dbt_utils.equal_rowcount:
+              compare_model: ref('stg_btc_outputs')
